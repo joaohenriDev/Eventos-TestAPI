@@ -6,4 +6,6 @@ import com.test.behoh.models.Eventos;
 
 public interface EventoRepository extends JpaRepository<Eventos, Long>{
 
+	
+	Eventos findById(long id);
 }
