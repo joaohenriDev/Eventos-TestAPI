@@ -1,11 +1,16 @@
 package com.test.behoh.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import com.test.behoh.models.Eventos;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.test.behoh.models.Inscricao;
 import com.test.behoh.models.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-
-	Usuario findById(long id);
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    
+    @Query("SELECT i FROM Inscricao i WHERE i.usuario.id = :usuarioId")
+    List<Inscricao> findInscricoesByUsuarioId(@Param("usuarioId") Long usuarioId);
 }

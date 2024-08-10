@@ -13,33 +13,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.test.behoh.models.Eventos;
-import com.test.behoh.repository.EventoRepository;
+import com.test.behoh.models.Usuario;
 import com.test.behoh.services.EventoService;
 
 @RestController
 @RequestMapping("/api")
 public class EventoController {
-	
-	@Autowired
-	private EventoRepository eventoRespository;
-	
-	@Autowired
-	private EventoService eventoService;
-	
+    
+    @Autowired
+    private EventoService eventoService;
 
-	@GetMapping("/eventos")
-	public List<Eventos> listaEventos(){
-		return eventoRespository.findAll();
-	};
-	
-	@GetMapping("/evento/{id}")
-	public Eventos listaEvento(@PathVariable(value="id") long id){
-		return eventoRespository.findById(id);
-	};
-	
-	@PostMapping("/evento")
-	public ResponseEntity<Eventos> criarEvento(@RequestBody Eventos evento) {
+    @GetMapping("/eventos")
+    public List<Eventos> listaEventos() {
+        return eventoService.listarEventos(); // Ajustado para usar o serviço
+    }
+
+    @GetMapping("/evento/{id}")
+    public ResponseEntity<Eventos> listaEvento(@PathVariable(value = "id") long id) {
+        Eventos evento = eventoService.buscarEventoPorId(id);
+        if (evento != null) {
+            return new ResponseEntity<>(evento, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/evento")
+    public ResponseEntity<Eventos> criarEvento(@RequestBody Eventos evento) {
         Eventos novoEvento = eventoService.criarEvento(evento);
         return new ResponseEntity<>(novoEvento, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{eventoId}/inscritos")
+    public ResponseEntity<List<Usuario>> listarInscritos(@PathVariable Long eventoId) {
+        List<Usuario> inscritos = eventoService.listarInscritos(eventoId);
+        return new ResponseEntity<>(inscritos, HttpStatus.OK);
     }
 }
