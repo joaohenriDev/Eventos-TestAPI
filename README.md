@@ -39,7 +39,7 @@ Cancelamento Após Entrada:
 
 Não é permitido cancelar a inscrição após o usuário ter realizado a entrada no evento.
 Requisitos
-Java 17 ou superior
+Java 8 ou superior
 Spring Boot 3.x
 JPA/Hibernate
 Banco de Dados H2 (ou outro banco de dados relacional)
@@ -48,8 +48,8 @@ Clonar o Repositório:
 
 bash
 Copiar código
-git clone https://github.com/seuusuario/seurepositorio.git
-cd seurepositorio
+git clone [https://github.com/seuusuario/seurepositorio.git](https://github.com/joaohenriDev/Eventos-TestAPI.git)
+cd Meu repositorio
 Construir o Projeto:
 
 bash
@@ -60,8 +60,6 @@ Executar o Projeto:
 bash
 Copiar código
 ./mvnw spring-boot:run
-Acessar a API:
-A API estará disponível em http://localhost:8080. Utilize ferramentas como Postman ou cURL para fazer requisições aos endpoints.
 
 Endpoints
 POST /evento: Criação de um novo evento
