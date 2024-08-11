@@ -1,73 +1,82 @@
 # Eventos-TestAPI
 
 API Rest para Gerenciamento de Eventos
-Este projeto é uma API Rest desenvolvida em Java para gerenciar eventos e inscrições de usuários. O objetivo é fornecer operações básicas para a criação de eventos e usuários, bem como gerenciar inscrições e entradas nos eventos, seguindo regras específicas.
+Bem-vindo ao projeto de gestão de eventos. Este projeto é uma API REST desenvolvida para gerenciar eventos e inscrições de usuários. Abaixo, você encontrará detalhes sobre a configuração, execução e operações da API.
 
-Funcionalidades
-Criação de Evento:
+#Desafio
+O desafio consistiu em desenvolver uma API REST para realizar operações básicas com eventos e usuários, com regras específicas para inscrições e gestão de eventos.
+Funcionalidades.
 
-Permite criar um novo evento com um nome, quantidade de vagas e horários de início e fim.
-Criação de Usuário:
+#Pré-requisitos
+- Spring Boot como framework.
+- Banco de Dados: H2 (ou SQL Server, PostgreSQL, MySQL).
+- Java: 8 ou superior.
 
-Permite criar um novo usuário com um nome.
-Inscrição de Usuário em Evento:
+#Operações Básicas
+A API permite realizar as seguintes operações:
 
-Permite inscrever um usuário em um evento, respeitando as regras de disponibilidade e horários.
-Cancelamento de Inscrição:
+#Criar um Evento
 
-Permite cancelar a inscrição de um usuário em um evento, com verificações para impedir o cancelamento após a entrada no evento.
-Listar Inscrições de um Usuário:
+- Endpoint: POST /eventos
+- Requisição: { "nome": "Nome do Evento", "vagas": 100, "dataHoraInicio": "2024-08-12T10:00:00", "dataHoraFim": "2024-08-12T18:00:00" }
+- Resposta: { "id": 1, "nome": "Nome do Evento", "vagas": 100, "dataHoraInicio": "2024-08-12T10:00:00", "dataHoraFim": "2024-08-12T18:00:00" }
 
-Lista todos os eventos em que um usuário está inscrito.
-Listar Inscritos de um Evento:
 
-Lista todos os usuários inscritos em um evento.
-Entrada do Usuário no Evento:
+#Criar um Usuário
 
-Permite registrar a entrada do usuário em um evento, dentro do período permitido.
-Regras Gerais
-Limite de Vagas:
+1 - Endpoint: POST /usuarios
+2 - Requisição: { "nome": "Nome do Usuário" }
+3 - Resposta: { "id": 1, "nome": "Nome do Usuário" }
+4 - Inscrever um Usuário em um Evento
 
-Não é permitido inscrever usuários quando o limite de vagas do evento for atingido.
-Inscrição Após Início do Evento:
+- Endpoint: POST /inscricoes
+- Requisição: { "usuarioId": 1, "eventoId": 1 }
+- Resposta: { "id": 1, "usuario": { "id": 1, "nome": "Nome do Usuário" }, "evento": { "id": 1, "nome": "Nome do Evento" }, "dataInscricao": "2024-08-11T14:00:00" }
+- Cancelar uma Inscrição
 
-Não é permitido inscrever usuários após o evento ter iniciado.
-Período de Entrada:
+- Endpoint: DELETE /inscricoes/{id}
+- Requisição: N/A
+- Resposta: { "message": "Inscrição cancelada com sucesso" }
+- Listar Inscrições de um Usuário
 
-O usuário só pode entrar no evento no período de uma hora antes do início até o término do evento.
-Cancelamento Após Entrada:
+- Endpoint: GET /usuarios/{id}/inscricoes
+- Resposta: [ { "id": 1, "evento": { "id": 1, "nome": "Nome do Evento" }, "dataInscricao": "2024-08-11T14:00:00" } ]
+- Listar Inscritos de um Evento
 
-Não é permitido cancelar a inscrição após o usuário ter realizado a entrada no evento.
-Requisitos
-Java 8 ou superior
-Spring Boot 3.x
-JPA/Hibernate
-Banco de Dados H2 (ou outro banco de dados relacional)
-Instruções de Execução
-Clonar o Repositório:
+- Endpoint: GET /eventos/{id}/inscritos
+- Resposta: [ { "id": 1, "usuario": { "id": 1, "nome": "Nome do Usuário" }, "dataInscricao": "2024-08-11T14:00:00" } ]
+- Realizar Entrada do Usuário no Evento
 
-bash
-Copiar código
-git clone (https://github.com/joaohenriDev/Eventos-TestAPI.git)
-cd Meu repositorio
-Construir o Projeto:
+- Endpoint: POST /inscricoes/{id}/entrada
+- Requisição: N/A
+- Resposta: { "message": "Entrada registrada com sucesso" }
 
-bash
-Copiar código
-./mvnw clean install
-Executar o Projeto:
+  #Regras de Inscrição
+1. Limite de Vagas: Não é permitido inscrever usuários quando o limite de vagas do evento for atingido.
+2. Evento Iniciado: Não é permitido inscrever usuários após o evento ter sido iniciado.
+3. Período de Entrada: O usuário só pode entrar no evento no período de uma hora antes do início até o término do evento.
+4. Cancelamento: Não é permitido cancelar uma inscrição após o usuário ter realizado a entrada no evento.
 
-bash
-Copiar código
-./mvnw spring-boot:run
+  #Diferenciais
+- Testes: Foram elaborados testes utilizando JUnit e Mockito para garantir a qualidade do código.
 
-Endpoints
-POST /evento: Criação de um novo evento
-POST /usuario: Criação de um novo usuário
-POST /inscricao: Inscrição de um usuário em um evento
-DELETE /usuario/{usuarioId}/evento/{eventoId}: Cancelamento de uma inscrição
-GET /usuario/{usuarioId}/inscricoes: Listar inscrições de um usuário
-GET /evento/{eventoId}/inscritos: Listar inscritos de um evento
-POST /evento/{eventoId}/entrada: Registrar a entrada do usuário no evento
-Observações
-Este projeto será concluído até o dia 11/08. As funcionalidades podem ser atualizadas conforme o progresso.
+ #Executando o Projeto
+*Locamente
+1. Clone o repositório:
+   ![image](https://github.com/user-attachments/assets/cdac882a-e713-43f0-878e-25537823788d)
+   
+2. Compile e execute a aplicação:
+   ![image](https://github.com/user-attachments/assets/bc81c767-3243-4957-9896-2f9008b05664)
+
+ #Testes
+Para executar os testes:
+
+1. Execute os testes com Maven:
+   ![image](https://github.com/user-attachments/assets/1c25b664-fd41-4021-aadc-a13a442e215e)
+
+#Contato
+Em caso de dúvidas, entre em contato com joaohenri293@gmail.com.
+
+
+
+
