@@ -48,7 +48,7 @@ Clonar o Repositório:
 
 bash
 Copiar código
-git clone [https://github.com/seuusuario/seurepositorio.git](https://github.com/joaohenriDev/Eventos-TestAPI.git)
+git clone (https://github.com/joaohenriDev/Eventos-TestAPI.git)
 cd Meu repositorio
 Construir o Projeto:
 
