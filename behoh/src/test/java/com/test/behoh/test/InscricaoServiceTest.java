@@ -71,4 +71,32 @@ public class InscricaoServiceTest {
 
         assertEquals("Não há vagas disponíveis para este evento", resultado);
     }
+    
+    @Test
+    public void testInscricaoEventoJaIniciado() {
+        evento.setDataHoraInicio(LocalDateTime.now().minusDays(1)); // Define o evento já iniciado
+        evento.setVagas(10); // Define vagas disponíveis
+
+        when(usuarioRepository.findById(1L)).thenReturn(java.util.Optional.of(usuario));
+        when(eventoRepository.findById(1L)).thenReturn(java.util.Optional.of(evento));
+        when(inscricaoRepository.existsByEventoAndUsuario(evento, usuario)).thenReturn(false);
+
+        String resultado = inscricaoService.inscreverUsuario(1L, 1L);
+
+        assertEquals("O evento já começou, não é possível se inscrever", resultado); // Mensagem ajustada
+    }
+
+    
+    @Test
+    public void testInscricaoDuplicada() {
+        when(usuarioRepository.findById(1L)).thenReturn(java.util.Optional.of(usuario));
+        when(eventoRepository.findById(1L)).thenReturn(java.util.Optional.of(evento));
+        when(inscricaoRepository.existsByEventoAndUsuario(evento, usuario)).thenReturn(true);
+
+        String resultado = inscricaoService.inscreverUsuario(1L, 1L);
+
+        assertEquals("O usuário já está inscrito neste evento", resultado);
+    }
+
+
 }

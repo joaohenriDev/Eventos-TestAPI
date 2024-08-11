@@ -36,36 +36,31 @@ public class InscricaoService {
     }
 
     public String inscreverUsuario(Long usuarioId, Long eventoId) {
-        // Verificar se o usuário e o evento existem
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        Eventos evento = eventoRepository.findById(eventoId).orElse(null);
 
-        Eventos evento = eventoRepository.findById(eventoId)
-            .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
-
-        // Verificar se o usuário já está inscrito no evento
-        if (inscricaoRepository.existsByEventoAndUsuario(evento, usuario)) {
-            return "Usuário já inscrito neste evento";
+        if (usuario == null || evento == null) {
+            return "Usuário ou evento não encontrado";
         }
 
-        // Verificar se o evento tem vagas disponíveis
-        if (evento.getVagas() <= 0) {
-            return "Não há vagas disponíveis para este evento";
-        }
-
-        // Verificar se o evento ainda não começou
         if (evento.getDataHoraInicio().isBefore(LocalDateTime.now())) {
             return "O evento já começou, não é possível se inscrever";
         }
 
-        // Criar e salvar a nova inscrição
+        if (inscricaoRepository.existsByEventoAndUsuario(evento, usuario)) {
+            return "O usuário já está inscrito neste evento";
+        }
+
+        if (evento.getVagas() <= 0) {
+            return "Não há vagas disponíveis para este evento";
+        }
+
         Inscricao inscricao = new Inscricao();
         inscricao.setUsuario(usuario);
         inscricao.setEvento(evento);
-        inscricao.setDataInscricao(LocalDateTime.now()); // Definindo o valor de dataInscricao
+        inscricao.setDataInscricao(LocalDateTime.now());
         inscricaoRepository.save(inscricao);
 
-        // Atualizar o número de vagas disponíveis
         evento.setVagas(evento.getVagas() - 1);
         eventoRepository.save(evento);
 
