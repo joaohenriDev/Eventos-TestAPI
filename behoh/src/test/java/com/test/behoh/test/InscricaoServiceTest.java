@@ -59,4 +59,16 @@ public class InscricaoServiceTest {
 
         assertEquals("Inscrição realizada com sucesso", resultado);
     }
+    
+    @Test
+    public void testInscricaoSemVagas() {
+        evento.setVagas(0);
+
+        when(usuarioRepository.findById(1L)).thenReturn(java.util.Optional.of(usuario));
+        when(eventoRepository.findById(1L)).thenReturn(java.util.Optional.of(evento));
+
+        String resultado = inscricaoService.inscreverUsuario(1L, 1L);
+
+        assertEquals("Não há vagas disponíveis para este evento", resultado);
+    }
 }
