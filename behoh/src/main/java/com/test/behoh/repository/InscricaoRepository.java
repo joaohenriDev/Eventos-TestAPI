@@ -15,11 +15,19 @@ import com.test.behoh.models.Usuario;
 @Repository
 public interface InscricaoRepository extends JpaRepository<Inscricao, Long> {
 
+	long countByEvento(Eventos evento);
+
+    Optional<Inscricao> findByEventoAndUsuario(Eventos evento, Usuario usuario);
+
+    boolean existsByEventoAndUsuario(Eventos evento, Usuario usuario);
+
     Optional<Inscricao> findByUsuarioAndEvento(Usuario usuario, Eventos evento);
-    
+
     @Query("SELECT i.usuario FROM Inscricao i WHERE i.evento.id = :eventoId")
     List<Usuario> findUsuariosByEventoId(@Param("eventoId") Long eventoId);
 
     @Query("SELECT i.evento FROM Inscricao i WHERE i.usuario.id = :usuarioId")
     List<Eventos> findEventosByUsuarioId(@Param("usuarioId") Long usuarioId);
+
+    Optional<Inscricao> findByUsuarioIdAndEventoId(Long usuarioId, Long eventoId);
 }

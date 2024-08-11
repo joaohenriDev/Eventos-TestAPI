@@ -28,7 +28,7 @@ public class Inscricao {
     private Eventos evento;
 
     @Column(nullable = false)
-    private LocalDateTime inscricaoEm;
+    private LocalDateTime dataInscricao;
 
     @Column(nullable = true)
     private LocalDateTime entradaEm;
@@ -58,11 +58,11 @@ public class Inscricao {
 	}
 
 	public LocalDateTime getInscricaoEm() {
-		return inscricaoEm;
+		return dataInscricao;
 	}
 
-	public void setInscricaoEm(LocalDateTime inscricaoEm) {
-		this.inscricaoEm = inscricaoEm;
+	public void setDataInscricao(LocalDateTime inscricaoEm) {
+		this.dataInscricao = inscricaoEm;
 	}
 
 	public LocalDateTime getEntradaEm() {

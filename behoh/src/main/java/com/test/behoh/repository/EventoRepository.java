@@ -12,5 +12,6 @@ import com.test.behoh.models.Inscricao;
 
 public interface EventoRepository extends JpaRepository<Eventos, Long> {
 	
+
 	Optional<Eventos> findById(Long id);
 }
